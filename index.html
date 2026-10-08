@@ -438,190 +438,144 @@
               </span>
             </div>
 
-            <!-- Compact 2-Column Responsive Grid (~1/4 Thumbnail Scale) -->
-            <div class="grid grid-cols-2 gap-3 sm:gap-4 max-w-[440px]">
+            <!-- Compact 2-Column Responsive Grid (1-Col on Mobile, 2-Col on Desktop, 6 Items) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
 
               <!-- 01. 메인 대시보드 (1.PNG) -->
               <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/1.PNG', '01. Dashboard — DPS (Device Protocol Studio)')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
+                <div class="px-3 py-2 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
                   <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
                     <span data-kr="메인 대시보드" data-en="Dashboard" class="i18n-text truncate">메인 대시보드</span>
                   </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">01</span>
+                  <span class="text-zinc-500 shrink-0 text-[11px]">01</span>
                 </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
+                <div class="relative bg-zinc-950/80 p-2 aspect-[16/10] flex items-center justify-center overflow-hidden">
                   <img src="image/1.PNG" alt="DPS 메인 대시보드" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" loading="lazy" />
                   <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                    <div class="p-2 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
                   </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
+                  <span class="absolute bottom-1.5 right-1.5 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
                 </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
+                <div class="px-2.5 py-1.5 bg-zinc-900/40 border-t border-zinc-800/60 text-xs text-zinc-400 truncate">
                   <span data-kr="디바이스 연결 및 주요 제어" data-en="Device Connection &amp; Control" class="i18n-text truncate">디바이스 연결 및 주요 제어</span>
                 </div>
               </div>
 
               <!-- 02. BLE 디바이스 스캐너 (2.PNG) -->
               <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/2.PNG', '02. BLE Scanner &amp; Signal Telemetry')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
+                <div class="px-3 py-2 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
                   <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
                     <span data-kr="BLE 스캐너" data-en="BLE Scanner" class="i18n-text truncate">BLE 스캐너</span>
                   </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">02</span>
+                  <span class="text-zinc-500 shrink-0 text-[11px]">02</span>
                 </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
+                <div class="relative bg-zinc-950/80 p-2 aspect-[16/10] flex items-center justify-center overflow-hidden">
                   <img src="image/2.PNG" alt="BLE 스캐너" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" loading="lazy" />
                   <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                    <div class="p-2 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
                   </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
+                  <span class="absolute bottom-1.5 right-1.5 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
                 </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
+                <div class="px-2.5 py-1.5 bg-zinc-900/40 border-t border-zinc-800/60 text-xs text-zinc-400 truncate">
                   <span data-kr="실시간 기기 탐색 및 신호 측정" data-en="Real-time Discovery &amp; RSSI" class="i18n-text truncate">실시간 기기 탐색 및 신호 측정</span>
                 </div>
               </div>
 
               <!-- 03. 패킷 터미널 (3.PNG) -->
               <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/3.PNG', '03. Live Packet Terminal')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
+                <div class="px-3 py-2 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
                   <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
                     <span data-kr="패킷 터미널" data-en="Packet Terminal" class="i18n-text truncate">패킷 터미널</span>
                   </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">03</span>
+                  <span class="text-zinc-500 shrink-0 text-[11px]">03</span>
                 </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
+                <div class="relative bg-zinc-950/80 p-2 aspect-[16/10] flex items-center justify-center overflow-hidden">
                   <img src="image/3.PNG" alt="패킷 터미널" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" onerror="this.onerror=null; this.src='image/3.jpg';" loading="lazy" />
                   <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                    <div class="p-2 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
                   </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
+                  <span class="absolute bottom-1.5 right-1.5 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
                 </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
+                <div class="px-2.5 py-1.5 bg-zinc-900/40 border-t border-zinc-800/60 text-xs text-zinc-400 truncate">
                   <span data-kr="패킷 수신 및 데이터 필터링" data-en="Live Reception &amp; Filtering" class="i18n-text truncate">패킷 수신 및 데이터 필터링</span>
                 </div>
               </div>
 
               <!-- 04. GATT 서비스 탐색 (5.PNG) -->
               <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/5.PNG', '04. GATT Explorer &amp; Characteristic Tree')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
+                <div class="px-3 py-2 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
                   <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
                     <span data-kr="GATT 탐색기" data-en="GATT Explorer" class="i18n-text truncate">GATT 탐색기</span>
                   </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">04</span>
+                  <span class="text-zinc-500 shrink-0 text-[11px]">04</span>
                 </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
+                <div class="relative bg-zinc-950/80 p-2 aspect-[16/10] flex items-center justify-center overflow-hidden">
                   <img src="image/5.PNG" alt="GATT 탐색기" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" onerror="this.onerror=null; this.src='image/5.jpg';" loading="lazy" />
                   <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                    <div class="p-2 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
                   </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
+                  <span class="absolute bottom-1.5 right-1.5 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
                 </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
+                <div class="px-2.5 py-1.5 bg-zinc-900/40 border-t border-zinc-800/60 text-xs text-zinc-400 truncate">
                   <span data-kr="서비스 트리 및 속성 분석" data-en="Service Tree &amp; Attributes" class="i18n-text truncate">서비스 트리 및 속성 분석</span>
                 </div>
               </div>
 
               <!-- 05. 프로토콜 디자이너 (6.PNG) -->
               <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/6.PNG', '05. Custom Protocol Designer')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
+                <div class="px-3 py-2 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
                   <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
                     <span data-kr="프로토콜 디자이너" data-en="Protocol Designer" class="i18n-text truncate">프로토콜 디자이너</span>
                   </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">05</span>
+                  <span class="text-zinc-500 shrink-0 text-[11px]">05</span>
                 </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
+                <div class="relative bg-zinc-950/80 p-2 aspect-[16/10] flex items-center justify-center overflow-hidden">
                   <img src="image/6.PNG" alt="프로토콜 디자이너" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" onerror="this.onerror=null; this.src='image/6.jpg';" loading="lazy" />
                   <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                    <div class="p-2 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
                   </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
+                  <span class="absolute bottom-1.5 right-1.5 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
                 </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
+                <div class="px-2.5 py-1.5 bg-zinc-900/40 border-t border-zinc-800/60 text-xs text-zinc-400 truncate">
                   <span data-kr="독자 패킷 규격 및 파싱 룰" data-en="Custom Frames &amp; Parsing Rules" class="i18n-text truncate">독자 패킷 규격 및 파싱 룰</span>
                 </div>
               </div>
 
               <!-- 06. 가상 시뮬레이터 (7.PNG) -->
               <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/7.PNG', '06. Virtual Peripheral Simulator')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
+                <div class="px-3 py-2 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
                   <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
                     <span data-kr="가상 시뮬레이터" data-en="Virtual Simulator" class="i18n-text truncate">가상 시뮬레이터</span>
                   </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">06</span>
+                  <span class="text-zinc-500 shrink-0 text-[11px]">06</span>
                 </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
+                <div class="relative bg-zinc-950/80 p-2 aspect-[16/10] flex items-center justify-center overflow-hidden">
                   <img src="image/7.PNG" alt="가상 시뮬레이터" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" loading="lazy" />
                   <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
+                    <div class="p-2 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
                     </div>
                   </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
+                  <span class="absolute bottom-1.5 right-1.5 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
                 </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
+                <div class="px-2.5 py-1.5 bg-zinc-900/40 border-t border-zinc-800/60 text-xs text-zinc-400 truncate">
                   <span data-kr="가상 패킷 송수신 사전 검증" data-en="Virtual Peripheral Simulation" class="i18n-text truncate">가상 패킷 송수신 사전 검증</span>
-                </div>
-              </div>
-
-              <!-- 07. 진단 로그 & QR 공유 (8.PNG) -->
-              <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/8.PNG', '07. Diagnostics Log &amp; QR Instant Sharing')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
-                  <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
-                    <span data-kr="진단 로그 &amp; QR 공유" data-en="Field QR Log" class="i18n-text truncate">진단 로그 &amp; QR 공유</span>
-                  </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">07</span>
-                </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
-                  <img src="image/8.PNG" alt="진단 로그" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" loading="lazy" />
-                  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
-                    </div>
-                  </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
-                </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
-                  <span data-kr="측정 결과 및 체크리스트 QR 동기화" data-en="Diagnostic Logs &amp; QR Sync" class="i18n-text truncate">측정 결과 및 체크리스트 QR 동기화</span>
-                </div>
-              </div>
-
-              <!-- 08. 엔지니어링 프로 도구 (9.PNG) -->
-              <div class="group/thumb rounded-xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-200 overflow-hidden shadow-lg shadow-black/40 flex flex-col cursor-zoom-in" onclick="openLightbox('image/9.PNG', '08. Advanced Engineering Suite')">
-                <div class="px-2.5 py-1.5 bg-zinc-900/90 border-b border-zinc-800/80 flex items-center justify-between text-[11px] font-mono">
-                  <span class="font-medium text-cyan-300 truncate pr-1 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0"></span>
-                    <span data-kr="엔지니어링 프로 도구" data-en="Pro Suite" class="i18n-text truncate">엔지니어링 프로 도구</span>
-                  </span>
-                  <span class="text-zinc-500 shrink-0 text-[10px]">08</span>
-                </div>
-                <div class="relative bg-zinc-950/80 p-1.5 aspect-[16/10] flex items-center justify-center overflow-hidden">
-                  <img src="image/9.PNG" alt="프로 도구" class="rounded-lg object-contain w-full h-full transition-transform duration-300 group-hover/thumb:scale-105" loading="lazy" />
-                  <div class="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="p-1.5 rounded-full bg-cyan-500/80 text-white shadow-lg backdrop-blur-xs">
-                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path></svg>
-                    </div>
-                  </div>
-                  <span class="absolute bottom-1 right-1 pointer-events-none select-none px-1 py-0.5 rounded bg-black/70 border border-white/10 text-[8px] font-mono tracking-wider text-white/40 uppercase">© Dueky</span>
-                </div>
-                <div class="px-2 py-1 bg-zinc-900/40 border-t border-zinc-800/60 text-[10px] text-zinc-400 truncate">
-                  <span data-kr="고급 분석 및 엔터프라이즈 설정" data-en="Advanced Inspection &amp; Config" class="i18n-text truncate">고급 분석 및 엔터프라이즈 설정</span>
                 </div>
               </div>
 
@@ -1111,30 +1065,20 @@
       </div>
 
       <!-- Bottom Row: Business Registration Information -->
-      <div class="pt-5 border-t border-zinc-900/80 flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-1.5 text-[11px] text-zinc-500 font-mono leading-relaxed text-center md:text-left">
-        <span class="inline-flex items-center gap-1">
+      <div class="pt-4 border-t border-zinc-900/80 flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-1.5 text-xs text-zinc-500 font-mono text-center md:text-left">
+        <span class="inline-flex items-center gap-1.5">
           <span class="i18n-text text-zinc-400 font-medium" data-kr="상호명:" data-en="Company:">상호명:</span>
-          <span class="text-zinc-400">듀키(Dueky)</span>
+          <span class="text-zinc-300">듀키(Dueky)</span>
         </span>
-        <span class="text-zinc-800 hidden sm:inline">|</span>
-        <span class="inline-flex items-center gap-1">
+        <span class="text-zinc-700 hidden sm:inline">|</span>
+        <span class="inline-flex items-center gap-1.5">
           <span class="i18n-text text-zinc-400 font-medium" data-kr="대표자:" data-en="CEO:">대표자:</span>
-          <span class="i18n-text text-zinc-400" data-kr="김효근" data-en="Hyo-Geun Kim">김효근</span>
+          <span class="i18n-text text-zinc-300" data-kr="김효근" data-en="Hyo-Geun Kim">김효근</span>
         </span>
-        <span class="text-zinc-800 hidden sm:inline">|</span>
-        <span class="inline-flex items-center gap-1">
+        <span class="text-zinc-700 hidden sm:inline">|</span>
+        <span class="inline-flex items-center gap-1.5">
           <span class="i18n-text text-zinc-400 font-medium" data-kr="사업자등록번호:" data-en="Business Reg. No:">사업자등록번호:</span>
-          <span class="text-zinc-400">613-41-01531</span>
-        </span>
-        <span class="text-zinc-800 hidden sm:inline">|</span>
-        <span class="inline-flex items-center gap-1">
-          <span class="i18n-text text-zinc-400 font-medium" data-kr="업태:" data-en="Business Type:">업태:</span>
-          <span class="i18n-text text-zinc-400" data-kr="정보통신업" data-en="Information &amp; Communication">정보통신업</span>
-        </span>
-        <span class="text-zinc-800 hidden sm:inline">|</span>
-        <span class="inline-flex items-center gap-1">
-          <span class="i18n-text text-zinc-400 font-medium" data-kr="종목:" data-en="Item:">종목:</span>
-          <span class="i18n-text text-zinc-400" data-kr="응용 소프트웨어 개발 및 공급업" data-en="Application Software Development &amp; Supply">응용 소프트웨어 개발 및 공급업</span>
+          <span class="text-zinc-300">613-41-01531</span>
         </span>
       </div>
 

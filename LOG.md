@@ -187,3 +187,11 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Strictly excluded physical business address in accordance with security and privacy instructions.
   - Implemented responsive `flex-wrap` layout with subtle dividers (`|`) and clean monospace styling (`text-[11px] text-zinc-500 font-mono`) matching the studio design system.
   - Embedded bilingual `[ KR | EN ]` toggle support across all business information labels.
+
+## [TASK-028] 2026-10-09 — DPS Screenshots 2-Column Responsive Layout and Footer Business Info Streamlined
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Reorganized DPS screenshots grid to a responsive 2-column layout on desktop (`sm:grid-cols-2`) and 1-column on mobile (`grid-cols-1`).
+  - Removed cards 07 (Field QR Log) and 08 (Pro Suite), retaining cards 01 through 06.
+  - Streamlined footer business details by removing business type (업태) and item (종목), leaving Company (듀키), CEO (김효근), and Business Reg. No (613-41-01531).
+  - Aligned typography and divider styles (`text-xs text-zinc-500 font-mono`) with the top footer row and maintained responsive flex-wrap behavior.
