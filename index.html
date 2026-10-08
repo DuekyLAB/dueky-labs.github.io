@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dueky Labs — Systems & Games Studio</title>
+  <meta name="description" content="하드웨어의 정밀함부터 인터랙티브 로직의 즐거움까지. 2007년부터 쌓아온 시스템 제어 설계 노하우를 바탕으로 현장 엔지니어링 툴과 독창적인 시스템 아키텍처 기반의 게임을 개발합니다." />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dueky Labs — Systems & Games Studio" />
+  <meta property="og:description" content="하드웨어의 정밀함부터 인터랙티브 로직의 즐거움까지. DPS, Electrical Toolkit, Train Defense." />
+
+  <!-- Google Fonts: JetBrains Mono & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              cyan: '#06b6d4',
+              emerald: '#10b981',
+              violet: '#8b5cf6',
+              amber: '#f59e0b',
+            }
+          },
+          backgroundImage: {
+            'grid-pattern': "radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0)",
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bg-grid {
+      background-size: 36px 36px;
+    }
+    .card-glass {
+      background: rgba(15, 17, 23, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+    .card-glass:hover {
+      border-color: rgba(255, 255, 255, 0.16);
+    }
+    .glow-effect {
+      position: relative;
+    }
+    .glow-effect::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 50%, rgba(6, 182, 212, 0.15));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Drag Gallery Styling */
+    .drag-gallery {
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: grab;
+    }
+    .drag-gallery.active {
+      cursor: grabbing;
+    }
+    .drag-gallery img {
+      pointer-events: none;
+    }
+
+    /* Custom Scrollbars */
+    .scrollbar-cyan::-webkit-scrollbar {
+      height: 6px;
+    }
+    .scrollbar-cyan::-webkit-scrollbar-track {
+      background: rgba(18, 20, 29, 0.8);
+      border-radius: 9999px;
+    }
+    .scrollbar-cyan::-webkit-scrollbar-thumb {
+      background: rgba(6, 182, 212, 0.35);
+      border-radius: 9999px;
+    }
+    .scrollbar-cyan::-webkit-scrollbar-thumb:hover {
+      background: rgba(6, 182, 212, 0.65);
+    }
+
+    .scrollbar-violet::-webkit-scrollbar {
+      height: 6px;
+    }
+    .scrollbar-violet::-webkit-scrollbar-track {
+      background: rgba(18, 20, 29, 0.8);
+      border-radius: 9999px;
+    }
+    .scrollbar-violet::-webkit-scrollbar-thumb {
+      background: rgba(139, 92, 246, 0.4);
+      border-radius: 9999px;
+    }
+    .scrollbar-violet::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 92, 246, 0.7);
+    }
+  </style>
+</head>
+<body class="bg-[#08090d] text-zinc-100 font-sans antialiased selection:bg-cyan-500/25 selection:text-cyan-200 min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- Ambient Backdrop Lights -->
+  <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+    <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[380px] bg-cyan-600/10 blur-[130px] rounded-full"></div>
+    <div class="absolute top-[35%] -left-40 w-[550px] h-[420px] bg-emerald-600/8 blur-[150px] rounded-full"></div>
+    <div class="absolute top-[65%] -right-40 w-[550px] h-[420px] bg-violet-600/9 blur-[150px] rounded-full"></div>
+    <div class="absolute inset-0 bg-grid-pattern bg-grid opacity-60"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#08090d]/80 border-b border-zinc-800/70 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      
+      <!-- Studio Logo: Pure Tech Identity -->
+      <a href="#" class="group flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 rounded-lg p-1">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 via-teal-500 to-indigo-600 p-[1px] flex items-center justify-center shadow-lg shadow-cyan-500/15 group-hover:shadow-cyan-500/35 transition-all">
+          <div class="w-full h-full bg-[#08090d] rounded-[7px] flex items-center justify-center font-mono font-bold text-xs text-cyan-400 group-hover:text-cyan-300">
+            &gt;_
+          </div>
+        </div>
+        <span class="font-bold text-lg sm:text-xl tracking-tight text-white group-hover:text-cyan-400 transition-colors">
+          Dueky Labs
+        </span>
+      </a>
+
+      <!-- Desktop Navigation: Tools & Apps, Games + KR/EN Switcher (No header email string) -->
+      <div class="hidden md:flex items-center gap-4">
+        <nav class="flex items-center gap-1.5 text-sm font-medium">
+          <a href="#tools-apps" data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="i18n-text px-3.5 py-2 text-zinc-300 hover:text-white rounded-lg hover:bg-zinc-800/50 transition-colors">
+            Tools &amp; Apps
+          </a>
+          <a href="#games" data-kr="Games" data-en="Games" class="i18n-text px-3.5 py-2 text-zinc-300 hover:text-white rounded-lg hover:bg-zinc-800/50 transition-colors">
+            Games
+          </a>
+          <a href="#studio" data-kr="Studio" data-en="Studio" class="i18n-text px-3.5 py-2 text-zinc-300 hover:text-white rounded-lg hover:bg-zinc-800/50 transition-colors">
+            Studio
+          </a>
+        </nav>
+
+        <div class="h-4 w-[1px] bg-zinc-800"></div>
+
+        <!-- Language Switcher [ KR | EN ] -->
+        <div class="inline-flex items-center rounded-lg bg-zinc-900/90 border border-zinc-800 p-0.5 text-xs font-mono">
+          <button id="lang-btn-kr" type="button" onclick="setLanguage('kr')" class="px-2.5 py-1 rounded-[6px] font-semibold transition-all bg-cyan-500 text-zinc-950 shadow-sm">
+            KR
+          </button>
+          <button id="lang-btn-en" type="button" onclick="setLanguage('en')" class="px-2.5 py-1 rounded-[6px] font-semibold transition-all text-zinc-400 hover:text-white">
+            EN
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Right Controls (Lang + Menu) -->
+      <div class="flex items-center gap-2 md:hidden">
+        <!-- Mobile Language Switcher -->
+        <div class="inline-flex items-center rounded-lg bg-zinc-900/90 border border-zinc-800 p-0.5 text-xs font-mono">
+          <button id="mobile-lang-kr" type="button" onclick="setLanguage('kr')" class="px-2 py-1 rounded-[6px] font-semibold transition-all bg-cyan-500 text-zinc-950">
+            KR
+          </button>
+          <button id="mobile-lang-en" type="button" onclick="setLanguage('en')" class="px-2 py-1 rounded-[6px] font-semibold transition-all text-zinc-400 hover:text-white">
+            EN
+          </button>
+        </div>
+
+        <!-- Mobile Hamburger Button -->
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" class="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+          <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Dropdown Nav -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-zinc-800/80 bg-[#0c0e14]/95 backdrop-blur-xl px-4 py-4 space-y-2">
+      <a href="#tools-apps" data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="mobile-nav-link i18n-text block px-3 py-2 text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg">
+        Tools &amp; Apps
+      </a>
+      <a href="#games" data-kr="Games" data-en="Games" class="mobile-nav-link i18n-text block px-3 py-2 text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg">
+        Games
+      </a>
+      <a href="#studio" data-kr="Studio" data-en="Studio" class="mobile-nav-link i18n-text block px-3 py-2 text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg">
+        Studio
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow">
+    
+    <!-- Hero Section -->
+    <section class="relative pt-24 pb-20 sm:pt-32 sm:pb-28 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+      <!-- Clean Top Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/70 text-xs font-mono text-zinc-400 mb-8 shadow-inner">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
+        <span data-kr="Independent Systems &amp; Game Studio" data-en="Independent Systems &amp; Game Studio" class="i18n-text">Independent Systems &amp; Game Studio</span>
+      </div>
+
+      <!-- Main Copy -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.25] sm:leading-[1.18] mb-6">
+        <span data-kr="하드웨어의 정밀함부터" data-en="From hardware precision" class="i18n-text">하드웨어의 정밀함부터</span><br class="hidden sm:inline" />
+        <span class="bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+          <span data-kr="인터랙티브 로직의 즐거움까지." data-en="to interactive logic." class="i18n-text">인터랙티브 로직의 즐거움까지.</span>
+        </span>
+      </h1>
+
+      <!-- Sub Copy -->
+      <p class="text-base sm:text-lg lg:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed mb-10 font-normal">
+        <span data-kr="2007년부터 쌓아온 시스템 제어 설계 노하우를 바탕으로, 현장 엔지니어를 위한 실용적인 솔루션과 독창적인 시스템 아키텍처 기반의 게임을 개발합니다." data-en="Leveraging system control design expertise since 2007, Dueky Labs crafts practical engineering tools for field engineers and distinct system-architecture-driven indie games." class="i18n-text">
+          2007년부터 쌓아온 시스템 제어 설계 노하우를 바탕으로, 현장 엔지니어를 위한 실용적인 솔루션과 독창적인 시스템 아키텍처 기반의 게임을 개발합니다.
+        </span>
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
+        <a href="#tools-apps" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-400 hover:to-teal-400 text-zinc-950 font-semibold text-sm transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 flex items-center justify-center gap-2">
+          <span data-kr="Tools &amp; Apps 살펴보기" data-en="Explore Tools &amp; Apps" class="i18n-text">Tools &amp; Apps 살펴보기</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </a>
+        <a href="#games" class="w-full sm:w-auto px-6 py-3.5 rounded-xl border border-zinc-700/70 hover:border-zinc-500 bg-zinc-900/50 hover:bg-zinc-800/60 text-zinc-200 text-sm font-medium transition-all flex items-center justify-center gap-2">
+          <span data-kr="Games 보기" data-en="View Games" class="i18n-text">Games 보기</span>
+          <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Tools & Apps Section (Renamed from Solutions) -->
+    <section id="tools-apps" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-800/60">
+      
+      <!-- Section Header -->
+      <div class="max-w-2xl mb-12">
+        <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-emerald-400 mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span data-kr="Software Lineup" data-en="Software Lineup" class="i18n-text">Software Lineup</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+          <span data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="i18n-text">Tools &amp; Apps</span>
+        </h2>
+        <p class="text-sm sm:text-base text-zinc-400 mt-2">
+          <span data-kr="임베디드 및 설비 현장의 복잡한 워크플로우를 간결하고 신뢰성 높게 해결하는 엔지니어링 소프트웨어입니다." data-en="Engineering software designed to simplify and streamline complex workflows in embedded systems and facility engineering." class="i18n-text">
+            임베디드 및 설비 현장의 복잡한 워크플로우를 간결하고 신뢰성 높게 해결하는 엔지니어링 소프트웨어입니다.
+          </span>
+        </p>
+      </div>
+
+      <!-- Tools & Apps Cards Space -->
+      <div class="space-y-12">
+
+        <!-- [CARD 1] DPS (Device Protocol Studio) - Top Priority -->
+        <article class="card-glass glow-effect rounded-3xl p-6 sm:p-10 relative group transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-950/20">
+          
+          <!-- App Header Area: DPS Official App Icon + Title -->
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-zinc-800/70">
+            <div class="flex items-start gap-4 sm:gap-5">
+              <!-- Official DPS App Icon -->
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden p-[2px] bg-gradient-to-br from-cyan-400 via-teal-500 to-zinc-800 shadow-xl shadow-cyan-950/40 shrink-0">
+                <img 
+                  src="image/app_icon_1006.png" 
+                  alt="DPS App Icon" 
+                  class="w-full h-full object-cover rounded-[14px]"
+                />
+              </div>
+
+              <div>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-cyan-300 transition-colors">
+                  DPS <span class="text-lg sm:text-xl font-normal text-zinc-400">(Device Protocol Studio)</span>
+                </h3>
+                <div class="inline-flex items-center gap-2 mt-1">
+                  <span class="text-xs sm:text-sm font-semibold text-cyan-400 font-mono">
+                    <span data-kr="종합 디바이스 통신 및 프로토콜 개발 워크스페이스" data-en="Device Protocol &amp; Communication Workspace" class="i18n-text">종합 디바이스 통신 및 프로토콜 개발 워크스페이스</span>
+                  </span>
+                  <span class="text-xs text-zinc-500 font-mono hidden sm:inline">• v1.0.1 Suite</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Status Badge: Release Candidate / v1.0.1 -->
+            <div class="shrink-0 self-start">
+              <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium bg-cyan-950/80 text-cyan-300 border border-cyan-700/60 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span data-kr="Release Candidate / v1.0.1" data-en="Release Candidate / v1.0.1" class="i18n-text">Release Candidate / v1.0.1</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- DPS Description: Clean Bullet List -->
+          <ul class="py-5 space-y-2 text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-4xl">
+            <li class="flex items-start gap-2.5">
+              <span class="text-cyan-400 select-none mt-0.5">•</span>
+              <span data-kr="BLE, TCP/UDP, MQTT, WebSocket, CoAP 등 멀티 통신 규격 통합 지원" data-en="Unified multi-protocol inspection for BLE, TCP/UDP, MQTT, WebSocket, and CoAP" class="i18n-text">
+                BLE, TCP/UDP, MQTT, WebSocket, CoAP 등 멀티 통신 규격 통합 지원
+              </span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-cyan-400 select-none mt-0.5">•</span>
+              <span data-kr="가상 기기(Virtual Devices) 시뮬레이션 및 커스텀 프로토콜 디자이너 탑재" data-en="Built-in virtual device simulation and custom protocol designer" class="i18n-text">
+                가상 기기(Virtual Devices) 시뮬레이션 및 커스텀 프로토콜 디자이너 탑재
+              </span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="text-cyan-400 select-none mt-0.5">•</span>
+              <span data-kr="반복 테스트 스튜디오 및 멀티채널 실시간 플로팅 제공" data-en="Automated test studio and real-time multi-channel telemetry plotting" class="i18n-text">
+                반복 테스트 스튜디오 및 멀티채널 실시간 플로팅 제공
+              </span>
+            </li>
+          </ul>
+
+          <!-- Feature Tags: What's New Summary -->
+          <div class="flex flex-wrap items-center gap-2 pb-6">
+            <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">TCP/UDP &amp; MQTT/CoAP</span>
+            <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Virtual Devices</span>
+            <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Protocol Designer</span>
+            <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Test Studio</span>
+            <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Multi-Channel Plotter</span>
+            <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">BLE GATT Explorer</span>
+          </div>
+
+          <!-- [NEW] Interactive DPS Mini Terminal Widget -->
+          <div class="pt-6 pb-6 border-t border-zinc-800/70">
+            <!-- Widget Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-200 font-mono">
+                  <span data-kr="DPS 인터랙티브 미니 터미널" data-en="DPS Interactive Mini Terminal" class="i18n-text">DPS 인터랙티브 미니 터미널</span>
+                </h4>
+              </div>
+              <p class="text-xs text-zinc-400 font-mono">
+                <span data-kr="버튼을 클릭하여 실제 BLE 패킷 송수신을 시뮬레이션해 보세요." data-en="Click buttons or type commands to simulate live BLE packet traffic." class="i18n-text">버튼을 클릭하여 실제 BLE 패킷 송수신을 시뮬레이션해 보세요.</span>
+              </p>
+            </div>
+
+            <!-- Terminal Window -->
+            <div class="rounded-2xl bg-[#05070a] border border-cyan-500/25 overflow-hidden shadow-2xl shadow-cyan-950/20">
+              
+              <!-- Console Top Bar -->
+              <div class="px-4 py-2.5 bg-[#0a0d14] border-b border-zinc-800/80 flex items-center justify-between text-xs font-mono">
+                <div class="flex items-center gap-2">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block"></span>
+                  </div>
+                  <span class="text-zinc-400 ml-2 font-mono text-[11px] sm:text-xs">dps://tty.ble.virtual-0 — 115200 8N1</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span id="term-status-dot" class="w-2 h-2 rounded-full bg-zinc-500 transition-colors duration-300"></span>
+                  <span id="term-status-text" class="text-[11px] font-mono text-zinc-400">DISCONNECTED</span>
+                </div>
+              </div>
+
+              <!-- Quick Command Buttons Toolbar -->
+              <div class="px-3 sm:px-4 py-2.5 bg-[#0d111a] border-b border-zinc-800/80 flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <span class="i18n-text text-[11px] text-zinc-500 mr-1 hidden sm:inline" data-kr="빠른 명령:" data-en="Presets:">빠른 명령:</span>
+                  <button type="button" class="term-quick-btn px-2.5 py-1 text-xs font-semibold rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500 hover:text-black hover:border-cyan-400 transition-all cursor-pointer shadow-sm shadow-cyan-950/50" data-cmd="CONNECT">[ CONNECT ]</button>
+                  <button type="button" class="term-quick-btn px-2.5 py-1 text-xs font-semibold rounded bg-zinc-900 border border-zinc-700/80 text-zinc-200 hover:border-emerald-500 hover:text-emerald-400 transition-all cursor-pointer" data-cmd="AT+INFO">[ AT+INFO ]</button>
+                  <button type="button" class="term-quick-btn px-2.5 py-1 text-xs font-semibold rounded bg-zinc-900 border border-zinc-700/80 text-zinc-200 hover:border-emerald-500 hover:text-emerald-400 transition-all cursor-pointer" data-cmd="SCAN">[ SCAN ]</button>
+                  <button type="button" class="term-quick-btn px-2.5 py-1 text-xs font-semibold rounded bg-zinc-900 border border-zinc-700/80 text-zinc-400 hover:border-rose-500 hover:text-rose-400 transition-all cursor-pointer" data-cmd="CLEAR">[ CLEAR ]</button>
+                </div>
+                <div class="text-[11px] text-zinc-500 hidden md:block">
+                  <span>GATT MTU: 247 | BLE 5.2</span>
+                </div>
+              </div>
+
+              <!-- Terminal Screen Output -->
+              <div id="term-screen" class="p-4 font-mono text-xs sm:text-[13px] h-48 sm:h-56 overflow-y-auto space-y-1.5 bg-[#05070a]/95 text-zinc-300 scrollbar-cyan leading-relaxed select-text">
+                <div class="text-zinc-500">// Device Protocol Studio (DPS) — Live Protocol Daemon v1.4.2</div>
+                <div class="text-zinc-500">// Ready. Click command presets above or type commands below.</div>
+                <div class="text-cyan-400/90 flex items-center gap-2">
+                  <span class="text-zinc-600">[00:00:00]</span>
+                  <span>[SYSTEM] Virtual BLE Controller ready on tty.ble0. Status: IDLE.</span>
+                </div>
+              </div>
+
+              <!-- Command Input Form -->
+              <form id="term-form" class="bg-[#090c12] px-3 sm:px-4 py-2 border-t border-zinc-800/80 flex items-center gap-2">
+                <span class="text-cyan-400 font-mono text-xs sm:text-sm font-bold select-none">&gt;</span>
+                <input 
+                  id="term-input" 
+                  type="text" 
+                  placeholder="명령어 입력 (예: CONNECT, AT+INFO, SCAN, PING, CLEAR)..." 
+                  data-kr-ph="명령어 입력 (예: CONNECT, AT+INFO, SCAN, PING, CLEAR)..."
+                  data-en-ph="Type command (e.g. CONNECT, AT+INFO, SCAN, PING, CLEAR)..."
+                  autocomplete="off" 
+                  class="flex-1 bg-transparent border-0 text-white font-mono text-xs sm:text-sm focus:outline-none placeholder-zinc-600"
+                />
+                <button type="submit" class="px-3 py-1 rounded bg-cyan-600/30 hover:bg-cyan-500 text-cyan-300 hover:text-zinc-950 font-mono text-xs font-semibold border border-cyan-500/40 transition-all cursor-pointer">
+                  <span data-kr="전송" data-en="Send" class="i18n-text">전송</span>
+                </button>
+              </form>
+
+            </div>
+          </div>
+
+          <!-- Drag-to-Scroll Screenshot Gallery -->
+          <div class="pt-6 border-t border-zinc-800/70">
+            
+            <!-- Controls Header -->
+            <div class="flex items-center justify-between mb-5">
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 font-mono">
+                  DPS Live App Screenshots
+                </h4>
+              </div>
+
+              <!-- Drag Guidance & Buttons -->
+              <div class="flex items-center gap-3">
+                <span class="i18n-text text-xs font-mono text-zinc-500 hidden sm:inline" data-kr="좌우로 드래그하여 탐색" data-en="Drag left/right to browse">
+                  좌우로 드래그하여 탐색
+                </span>
+                <div class="flex items-center gap-1.5">
+                  <button id="solutions-prev" type="button" aria-label="Previous screenshot" class="p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-400 hover:text-white hover:border-cyan-500/50 hover:bg-zinc-800/80 transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                  </button>
+                  <button id="solutions-next" type="button" aria-label="Next screenshot" class="p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-400 hover:text-white hover:border-cyan-500/50 hover:bg-zinc-800/80 transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Drag-to-Scroll Container (All 8 Screenshots) -->
+            <div id="solutions-carousel" class="drag-gallery scrollbar-cyan flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth select-none">
+
+              <!-- 1. 메인 대시보드 (1.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="메인 대시보드" data-en="Dashboard" class="i18n-text">메인 대시보드</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">01</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/1.PNG', '01. Dashboard — DPS (Device Protocol Studio)')">
+                  <img src="image/1.PNG" alt="DPS 메인 대시보드" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="디바이스 연결 및 주요 파라미터 종합 제어" data-en="Device connection & telemetry dashboard control" class="i18n-text">디바이스 연결 및 주요 파라미터 종합 제어</span>
+                </div>
+              </div>
+
+              <!-- 2. BLE 디바이스 스캐너 (2.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="BLE 스캐너" data-en="BLE Scanner" class="i18n-text">BLE 스캐너</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">02</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/2.PNG', '02. BLE Scanner & Signal Telemetry')">
+                  <img src="image/2.PNG" alt="BLE 스캐너" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="주변 BLE 기기 실시간 탐색 및 신호 강도 모니터링" data-en="Real-time BLE discovery & RSSI signal telemetry" class="i18n-text">주변 BLE 기기 실시간 탐색 및 신호 강도 모니터링</span>
+                </div>
+              </div>
+
+              <!-- 3. 패킷 터미널 (3.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="패킷 터미널" data-en="Packet Terminal" class="i18n-text">패킷 터미널</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">03</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/3.PNG', '03. Live Packet Terminal')">
+                  <img src="image/3.PNG" alt="패킷 터미널" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" onerror="this.onerror=null; this.src='image/3.jpg';" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="실시간 패킷 수신 및 HEX/ASCII 데이터 필터링" data-en="Live packet reception with HEX/ASCII data filtering" class="i18n-text">실시간 패킷 수신 및 HEX/ASCII 데이터 필터링</span>
+                </div>
+              </div>
+
+              <!-- 5. GATT 탐색기 (5.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="GATT 서비스 탐색" data-en="GATT Explorer" class="i18n-text">GATT 서비스 탐색</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">04</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/5.PNG', '04. GATT Explorer & Characteristic Tree')">
+                  <img src="image/5.PNG" alt="GATT 탐색기" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" onerror="this.onerror=null; this.src='image/5.jpg';" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="BLE 서비스 트리 분석 및 Characteristic 읽기/쓰기" data-en="BLE service tree inspector & characteristic read/write" class="i18n-text">BLE 서비스 트리 분석 및 Characteristic 읽기/쓰기</span>
+                </div>
+              </div>
+
+              <!-- 6. 프로토콜 디자이너 (6.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="프로토콜 디자이너" data-en="Protocol Designer" class="i18n-text">프로토콜 디자이너</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">05</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/6.PNG', '05. Custom Protocol Designer')">
+                  <img src="image/6.PNG" alt="프로토콜 디자이너" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" onerror="this.onerror=null; this.src='image/6.jpg';" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="기기별 독자 패킷 규격 정의 및 자동 파싱 룰 생성" data-en="Define proprietary packet frames & automated parsing rules" class="i18n-text">기기별 독자 패킷 규격 정의 및 자동 파싱 룰 생성</span>
+                </div>
+              </div>
+
+              <!-- 7. 가상 시뮬레이터 (7.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="가상 시뮬레이터" data-en="Virtual Simulator" class="i18n-text">가상 시뮬레이터</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">06</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/7.PNG', '06. Virtual Peripheral Simulator')">
+                  <img src="image/7.PNG" alt="가상 시뮬레이터" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="하드웨어 부재 시에도 가상 패킷 송수신 사전 검증" data-en="Simulate virtual peripheral packets without physical HW" class="i18n-text">하드웨어 부재 시에도 가상 패킷 송수신 사전 검증</span>
+                </div>
+              </div>
+
+              <!-- 8. 필드 측정 로그 & QR (8.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="진단 로그 & QR 공유" data-en="Field QR Log" class="i18n-text">진단 로그 & QR 공유</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">07</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/8.PNG', '07. Diagnostics Log & QR Instant Sharing')">
+                  <img src="image/8.PNG" alt="진단 로그" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="측정 결과 및 체크리스트를 QR 코드로 즉시 동기화" data-en="Synchronize inspection results instantly with QR codes" class="i18n-text">측정 결과 및 체크리스트를 QR 코드로 즉시 동기화</span>
+                </div>
+              </div>
+
+              <!-- 9. 프로 엔지니어링 툴 (9.PNG) -->
+              <div class="snap-start shrink-0 w-[260px] sm:w-[280px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-cyan-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+                <div class="px-3.5 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                  <span class="text-xs font-mono font-medium text-cyan-300 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                    <span data-kr="엔지니어링 프로 도구" data-en="Pro Suite" class="i18n-text">엔지니어링 프로 도구</span>
+                  </span>
+                  <span class="text-[10px] font-mono text-zinc-500">08</span>
+                </div>
+                <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer" onclick="openLightbox('image/9.PNG', '08. Advanced Engineering Suite')">
+                  <img src="image/9.PNG" alt="프로 도구" class="rounded-xl object-contain max-h-[380px] w-full transition-transform duration-300 group-hover/item:scale-[1.02]" loading="lazy" />
+                  <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+                </div>
+                <div class="p-3 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-400 leading-snug">
+                  <span data-kr="고급 프로토콜 분석 및 엔터프라이즈 환경 설정" data-en="Advanced protocol inspection & pro configuration" class="i18n-text">고급 프로토콜 분석 및 엔터프라이즈 환경 설정</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </article>
+
+
+        <!-- [CARD 2] Electrical Toolkit - Second in sequence -->
+        <article class="card-glass glow-effect rounded-3xl p-6 sm:p-10 relative group transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-950/20">
+          
+          <!-- Top Row: Title + [개발 중 / In Development] Badge -->
+          <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-zinc-800/70">
+            <div>
+              <div class="flex flex-wrap items-center gap-3">
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-emerald-300 transition-colors">
+                  Electrical Toolkit
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm font-mono text-emerald-400 font-semibold mt-1">
+                "Learn it. Calculate it. Use it. Customize it. Share it."
+              </p>
+            </div>
+
+            <!-- In Development Badge -->
+            <div class="shrink-0 self-start">
+              <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium bg-amber-950/80 text-amber-300 border border-amber-600/60 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                <span data-kr="개발 중" data-en="In Development" class="i18n-text">개발 중</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="py-5">
+            <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-4xl">
+              <span data-kr="전기·전자 실무자와 학생을 위한 글로벌 엔지니어링 툴킷. 8개국어 다국어 지원과 오프라인 우선 설계로 현장 효율을 극대화합니다." data-en="Global engineering toolkit for electrical practitioners and students. Maximizes on-site efficiency with 8-language support and offline-first architecture." class="i18n-text">
+                전기·전자 실무자와 학생을 위한 글로벌 엔지니어링 툴킷. 8개국어 다국어 지원과 오프라인 우선 설계로 현장 효율을 극대화합니다.
+              </span>
+            </p>
+          </div>
+
+          <!-- 6 Key Architecture Pillars -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+            
+            <!-- 01 Engineering Calculations -->
+            <div class="group/sub p-4 sm:p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-emerald-950/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/60 text-[11px] font-mono font-semibold text-emerald-400">01</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover/sub:bg-emerald-400 group-hover/sub:shadow-[0_0_8px_rgba(52,211,153,0.6)] transition-all"></span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover/sub:text-emerald-300 transition-colors mb-1.5">
+                  <span data-kr="실시간 공학 수식 계산" data-en="Engineering Calculations" class="i18n-text">실시간 공학 수식 계산</span>
+                </h4>
+                <p class="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  <span class="text-emerald-400 select-none mt-0.5">•</span>
+                  <span data-kr="회로 해석·전압 강하·역률 보상 등 즉각적인 연산 엔진" data-en="Instant calculations for circuits, voltage drop & power factor" class="i18n-text">
+                    회로 해석·전압 강하·역률 보상 등 즉각적인 연산 엔진
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- 02 Field Measurement Logging -->
+            <div class="group/sub p-4 sm:p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-emerald-950/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/60 text-[11px] font-mono font-semibold text-emerald-400">02</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover/sub:bg-emerald-400 group-hover/sub:shadow-[0_0_8px_rgba(52,211,153,0.6)] transition-all"></span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover/sub:text-emerald-300 transition-colors mb-1.5">
+                  <span data-kr="현장 측정 & 진단 로깅" data-en="Field Measurement Logging" class="i18n-text">현장 측정 & 진단 로깅</span>
+                </h4>
+                <p class="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  <span class="text-emerald-400 select-none mt-0.5">•</span>
+                  <span data-kr="설비 계측 데이터 로깅 및 시계열 트렌드 자동 기록" data-en="Automated telemetry data logging and trend recording" class="i18n-text">
+                    설비 계측 데이터 로깅 및 시계열 트렌드 자동 기록
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- 03 Custom Standard / Checklist -->
+            <div class="group/sub p-4 sm:p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-emerald-950/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/60 text-[11px] font-mono font-semibold text-emerald-400">03</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover/sub:bg-emerald-400 group-hover/sub:shadow-[0_0_8px_rgba(52,211,153,0.6)] transition-all"></span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover/sub:text-emerald-300 transition-colors mb-1.5">
+                  <span data-kr="커스텀 표준 체크리스트" data-en="Custom Standard / Checklist" class="i18n-text">커스텀 표준 체크리스트</span>
+                </h4>
+                <p class="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  <span class="text-emerald-400 select-none mt-0.5">•</span>
+                  <span data-kr="작업장 맞춤형 안전·점검 템플릿 생성 및 표준화" data-en="Customizable safety and inspection checklist templates" class="i18n-text">
+                    작업장 맞춤형 안전·점검 템플릿 생성 및 표준화
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- 04 QR Instant Sharing -->
+            <div class="group/sub p-4 sm:p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-emerald-950/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/60 text-[11px] font-mono font-semibold text-emerald-400">04</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover/sub:bg-emerald-400 group-hover/sub:shadow-[0_0_8px_rgba(52,211,153,0.6)] transition-all"></span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover/sub:text-emerald-300 transition-colors mb-1.5">
+                  <span data-kr="QR 기반 즉각 공유" data-en="QR Instant Sharing" class="i18n-text">QR 기반 즉각 공유</span>
+                </h4>
+                <p class="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  <span class="text-emerald-400 select-none mt-0.5">•</span>
+                  <span data-kr="계정 로그인 없이 QR 코드로 현장 데이터 즉시 공유" data-en="Instant peer-to-peer QR sharing without account login" class="i18n-text">
+                    계정 로그인 없이 QR 코드로 현장 데이터 즉시 공유
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- 05 Offline-First Engine -->
+            <div class="group/sub p-4 sm:p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-emerald-950/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/60 text-[11px] font-mono font-semibold text-emerald-400">05</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover/sub:bg-emerald-400 group-hover/sub:shadow-[0_0_8px_rgba(52,211,153,0.6)] transition-all"></span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover/sub:text-emerald-300 transition-colors mb-1.5">
+                  <span data-kr="Offline-First 온디바이스" data-en="Offline-First Engine" class="i18n-text">Offline-First 온디바이스</span>
+                </h4>
+                <p class="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  <span class="text-emerald-400 select-none mt-0.5">•</span>
+                  <span data-kr="통신 음영 지역에서도 완전 작동하는 오프라인 엔진" data-en="Reliable offline engine functional even in network dead zones" class="i18n-text">
+                    통신 음영 지역에서도 완전 작동하는 오프라인 엔진
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <!-- 06 Global 8 Languages -->
+            <div class="group/sub p-4 sm:p-5 rounded-2xl bg-zinc-900/40 border border-zinc-800/80 hover:border-emerald-500/40 hover:bg-zinc-900/70 hover:shadow-lg hover:shadow-emerald-950/20 transition-all duration-300 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-950/70 border border-emerald-800/60 text-[11px] font-mono font-semibold text-emerald-400">06</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500/40 group-hover/sub:bg-emerald-400 group-hover/sub:shadow-[0_0_8px_rgba(52,211,153,0.6)] transition-all"></span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover/sub:text-emerald-300 transition-colors mb-1.5">
+                  <span data-kr="8개국어 다국어 지원" data-en="Global 8 Languages" class="i18n-text">8개국어 다국어 지원</span>
+                </h4>
+                <p class="flex items-start gap-1.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                  <span class="text-emerald-400 select-none mt-0.5">•</span>
+                  <span data-kr="사용자 정의 기술 용어 및 현지 규격에 최적화된 로컬라이제이션" data-en="Localization optimized for user-defined technical terminology and standards" class="i18n-text">
+                    사용자 정의 기술 용어 및 현지 규격에 최적화된 로컬라이제이션
+                  </span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Feature Tags -->
+          <div class="mt-8 pt-5 border-t border-zinc-800/70 flex flex-wrap items-center gap-2">
+            <span class="px-2.5 py-1 rounded bg-zinc-800/60 text-zinc-300 text-xs font-mono">8 Languages</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-800/60 text-zinc-300 text-xs font-mono">Formulas &amp; Calculation</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-800/60 text-zinc-300 text-xs font-mono">Field Measurement</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-800/60 text-zinc-300 text-xs font-mono">Custom Checklist</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-800/60 text-zinc-300 text-xs font-mono">QR Sync</span>
+            <span class="px-2.5 py-1 rounded bg-zinc-800/60 text-zinc-300 text-xs font-mono">Offline First</span>
+          </div>
+
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-800/60">
+      
+      <!-- Section Header -->
+      <div class="max-w-2xl mb-12">
+        <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-violet-400 mb-2">
+          <span class="w-2 h-2 rounded-full bg-violet-400"></span>
+          <span data-kr="Indie Games Lineup" data-en="Indie Games Lineup" class="i18n-text">Indie Games Lineup</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+          Games
+        </h2>
+        <p class="text-sm sm:text-base text-zinc-400 mt-2">
+          <span data-kr="완성도 높은 메커니즘과 정교한 밸런스로 오롯이 재미에 집중한 게임을 설계합니다." data-en="Designing games focused purely on immersive fun with refined mechanics and precise balance." class="i18n-text">
+            완성도 높은 메커니즘과 정교한 밸런스로 오롯이 재미에 집중한 게임을 설계합니다.
+          </span>
+        </p>
+      </div>
+
+      <!-- Train Defense Card -->
+      <article class="card-glass glow-effect rounded-3xl p-6 sm:p-10 relative group transition-all duration-300 hover:shadow-2xl hover:shadow-violet-950/20">
+        
+        <!-- Top Row: Game Title + [개발 중 / Pre-production] Badge -->
+        <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-zinc-800/70">
+          <div class="flex items-start gap-4 sm:gap-5">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-violet-500/30 via-zinc-900 to-zinc-950 border border-violet-500/50 p-2.5 flex items-center justify-center shrink-0 shadow-xl shadow-violet-950/40 relative">
+              <svg class="w-9 h-9 sm:w-10 sm:h-10 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span class="absolute -bottom-1 -right-1 flex h-3.5 w-3.5">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-violet-500"></span>
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-white group-hover:text-violet-300 transition-colors">
+                Train Defense
+              </h3>
+              <div class="inline-flex items-center gap-2 mt-1">
+                <span class="text-sm font-semibold text-violet-400 font-mono">
+                  <span data-kr="순환형 궤도 기반 오토배틀러" data-en="Circular Rail Auto-Battler" class="i18n-text">순환형 궤도 기반 오토배틀러</span>
+                </span>
+                <span class="text-xs text-zinc-500 font-mono hidden sm:inline">• Roguelite Defense</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pre-production Badge -->
+          <div class="shrink-0 self-start">
+            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium bg-violet-950/80 text-violet-300 border border-violet-700/60 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-violet-400"></span>
+              <span data-kr="개발 중" data-en="Pre-production" class="i18n-text">개발 중</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Train Defense Description: Clean Bullet List -->
+        <ul class="py-5 space-y-2 text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-4xl">
+          <li class="flex items-start gap-2.5">
+            <span class="text-violet-400 select-none mt-0.5">•</span>
+            <span data-kr="순환형 궤도 기반의 로그라이트 오토배틀러 디펜스" data-en="Circular rail roguelite autobattler defense" class="i18n-text">
+              순환형 궤도 기반의 로그라이트 오토배틀러 디펜스
+            </span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="text-violet-400 select-none mt-0.5">•</span>
+            <span data-kr="몰입감 넘치는 규칙과 전략적 뎁스에 집중한 메커니즘" data-en="Mechanics focused on immersive rules and strategic depth" class="i18n-text">
+              몰입감 넘치는 규칙과 전략적 뎁스에 집중한 메커니즘
+            </span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="text-violet-400 select-none mt-0.5">•</span>
+            <span data-kr="완성도 높은 빌드로 글로벌 런칭 준비 중" data-en="Preparing for global launch with polished release builds" class="i18n-text">
+              완성도 높은 빌드로 글로벌 런칭 준비 중
+            </span>
+          </li>
+        </ul>
+
+        <!-- Tags -->
+        <div class="flex flex-wrap items-center gap-2 pb-6">
+          <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Strategic Depth</span>
+          <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Circular Orbit Rail</span>
+          <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Global 10-L10n</span>
+          <span class="px-3 py-1 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-300 text-xs font-mono">Modular Unit System</span>
+        </div>
+
+        <!-- Drag-to-Scroll Game Art & Assets Gallery -->
+        <div class="pt-6 border-t border-zinc-800/70">
+          
+          <!-- Controls Header -->
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <h4 class="text-sm font-semibold uppercase tracking-wider text-zinc-300 font-mono">
+                Gameplay Concept &amp; Asset Showcase
+              </h4>
+            </div>
+
+            <!-- Drag Guidance & Buttons -->
+            <div class="flex items-center gap-3">
+              <span class="i18n-text text-xs font-mono text-zinc-500 hidden sm:inline" data-kr="좌우로 드래그하여 감상" data-en="Drag left/right to browse">
+                좌우로 드래그하여 감상
+              </span>
+              <div class="flex items-center gap-1.5">
+                <button id="games-prev" type="button" aria-label="Previous game asset" class="p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-400 hover:text-white hover:border-violet-500/50 hover:bg-zinc-800/80 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="games-next" type="button" aria-label="Next game asset" class="p-2 rounded-lg bg-zinc-900/90 border border-zinc-800 text-zinc-400 hover:text-white hover:border-violet-500/50 hover:bg-zinc-800/80 transition-all">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Drag-to-Scroll Container for Game Art (Wide Cards) -->
+          <div id="games-carousel" class="drag-gallery scrollbar-violet flex gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth select-none">
+
+            <!-- 1. 기차디펜스1.png -->
+            <div class="snap-start shrink-0 w-[320px] sm:w-[460px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-violet-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+              <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                <span class="text-xs font-mono font-medium text-violet-300 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                  <span data-kr="인게임 순환 레일 배틀" data-en="Circular Rail Battle" class="i18n-text">인게임 순환 레일 배틀</span>
+                </span>
+                <span class="text-[10px] font-mono text-zinc-500">View 01</span>
+              </div>
+              <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer aspect-video overflow-hidden" onclick="openLightbox('image/기차디펜스1.png', 'Train Defense — Circular Rail Orbital Battle')">
+                <img src="image/기차디펜스1.png" alt="기차디펜스 1 인게임 컨셉" class="rounded-xl object-cover w-full h-full transition-transform duration-300 group-hover/item:scale-[1.03]" loading="lazy" />
+                <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+              </div>
+              <div class="p-3.5 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-300 leading-snug">
+                <span data-kr="순환형 레일 궤도 위의 열차 배치와 적 웨이브 요격 메커니즘" data-en="Train positioning along circular orbital tracks and automated wave interception" class="i18n-text">순환형 레일 궤도 위의 열차 배치와 적 웨이브 요격 메커니즘</span>
+              </div>
+            </div>
+
+            <!-- 2. 기차디펜스2.png -->
+            <div class="snap-start shrink-0 w-[320px] sm:w-[460px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-violet-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+              <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                <span class="text-xs font-mono font-medium text-violet-300 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                  <span data-kr="웨이브 방어 및 화력 시너지" data-en="Wave Defense & Synergies" class="i18n-text">웨이브 방어 및 화력 시너지</span>
+                </span>
+                <span class="text-[10px] font-mono text-zinc-500">View 02</span>
+              </div>
+              <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer aspect-video overflow-hidden" onclick="openLightbox('image/기차디펜스2.png', 'Train Defense — Wave Defense Formations & Turret Synergies')">
+                <img src="image/기차디펜스2.png" alt="기차디펜스 2 웨이브 방어" class="rounded-xl object-cover w-full h-full transition-transform duration-300 group-hover/item:scale-[1.03]" loading="lazy" />
+                <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+              </div>
+              <div class="p-3.5 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-300 leading-snug">
+                <span data-kr="다양한 포탑 모듈과 열차 객차의 결합으로 발현되는 강력한 시너지 루프" data-en="Combines defensive turret modules with rail carts to trigger high-impact synergy loops" class="i18n-text">다양한 포탑 모듈과 열차 객차의 결합으로 발현되는 강력한 시너지 루프</span>
+              </div>
+            </div>
+
+            <!-- 3. 기차디펜스3.png -->
+            <div class="snap-start shrink-0 w-[320px] sm:w-[460px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-violet-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+              <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                <span class="text-xs font-mono font-medium text-violet-300 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                  <span data-kr="전술 강화 및 시스템 UI" data-en="Tactics UI & Upgrades" class="i18n-text">전술 강화 및 시스템 UI</span>
+                </span>
+                <span class="text-[10px] font-mono text-zinc-500">View 03</span>
+              </div>
+              <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer aspect-video overflow-hidden" onclick="openLightbox('image/기차디펜스3.png', 'Train Defense — Orbital Tactics & Artifact Control')">
+                <img src="image/기차디펜스3.png" alt="기차디펜스 3 전술 인터페이스" class="rounded-xl object-cover w-full h-full transition-transform duration-300 group-hover/item:scale-[1.03]" loading="lazy" />
+                <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+              </div>
+              <div class="p-3.5 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-300 leading-snug">
+                <span data-kr="전략적 의사결정을 극대화하는 로그라이트 아티팩트 및 커스텀 오비탈 전술" data-en="Roguelite artifact selection and orbital strategic ability control" class="i18n-text">전략적 의사결정을 극대화하는 로그라이트 아티팩트 및 커스텀 오비탈 전술</span>
+              </div>
+            </div>
+
+            <!-- 4. 조비 열차 디펜스 게임 에셋 시트.png -->
+            <div class="snap-start shrink-0 w-[320px] sm:w-[460px] rounded-2xl bg-[#090b10] border border-zinc-800/90 hover:border-violet-500/60 transition-all duration-300 overflow-hidden shadow-xl shadow-black/60 flex flex-col group/item">
+              <div class="px-4 py-2.5 bg-zinc-900/90 border-b border-zinc-800 flex items-center justify-between">
+                <span class="text-xs font-mono font-medium text-violet-300 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-violet-400"></span>
+                  <span data-kr="모듈형 열차 & 스프라이트 에셋 시트" data-en="Modular Train & Sprite Sheet" class="i18n-text">모듈형 열차 & 스프라이트 에셋 시트</span>
+                </span>
+                <span class="text-[10px] font-mono text-zinc-500">Asset Sheet</span>
+              </div>
+              <div class="relative bg-zinc-950/70 p-2.5 flex items-center justify-center cursor-pointer aspect-video overflow-hidden" onclick="openLightbox('image/좀비 열차 디펜스 게임 에셋 시트.png', 'Train Defense — Modular Cart & Unit Sprite Sheet')">
+                <img src="image/좀비 열차 디펜스 게임 에셋 시트.png" alt="열차 디펜스 게임 에셋 시트" class="rounded-xl object-contain w-full h-full transition-transform duration-300 group-hover/item:scale-[1.03]" loading="lazy" />
+                <span class="absolute bottom-4 right-4 pointer-events-none select-none px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs border border-white/10 text-[10px] sm:text-xs font-mono tracking-widest text-white/40 uppercase">© Dueky Labs</span>
+              </div>
+              <div class="p-3.5 bg-zinc-900/40 border-t border-zinc-800/70 mt-auto text-xs text-zinc-300 leading-snug">
+                <span data-kr="자유롭게 조립되는 모듈형 기관차, 방어 카트 및 몬스터 에셋" data-en="Modular train engines, tactical carts, and enemy sprite assemblies" class="i18n-text">자유롭게 조립되는 모듈형 기관차, 방어 카트 및 몬스터 에셋</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+    </section>
+
+    <!-- Studio (Company) Introduction Section -->
+    <section id="studio" class="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-800/60">
+      
+      <!-- Section Header -->
+      <div class="max-w-2xl mb-12">
+        <div class="inline-flex items-center gap-2 text-xs font-mono font-semibold uppercase tracking-wider text-cyan-400 mb-2">
+          <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+          <span data-kr="Studio Profile" data-en="Studio Profile" class="i18n-text">Studio Profile</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+          <span data-kr="About Dueky Labs" data-en="About Dueky Labs" class="i18n-text">About Dueky Labs</span>
+        </h2>
+        <p class="text-sm sm:text-base text-zinc-400 mt-2">
+          <span data-kr="Est. 2007. 하드웨어 제어와 시스템 설계의 노하우를 바탕으로, 실무에 즉시 기여하는 프로페셔널 툴과 독창적인 게임을 만듭니다." data-en="Est. 2007. Built on hardware control and system design expertise, creating professional tools and original games that make an immediate impact." class="i18n-text">
+            Est. 2007. 하드웨어 제어와 시스템 설계의 노하우를 바탕으로, 실무에 즉시 기여하는 프로페셔널 툴과 독창적인 게임을 만듭니다.
+          </span>
+        </p>
+      </div>
+
+      <!-- 3 Key Pillars Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Pillar 01: Engineering Tools -->
+        <div class="card-glass glow-effect rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-950/20 flex flex-col">
+          <div class="text-xs font-mono text-cyan-400 mb-3 flex items-center justify-between font-semibold">
+            <span class="px-2.5 py-1 rounded bg-cyan-950/70 border border-cyan-800/60 text-cyan-300">01 / Engineering Tools</span>
+            <span class="text-zinc-600 font-mono text-xs">Pillar</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">
+            <span data-kr="현장 중심의 엔지니어링 툴" data-en="Field-Centric Engineering Tools" class="i18n-text">현장 중심의 엔지니어링 툴</span>
+          </h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mt-auto">
+            <span data-kr="실무 현장의 복잡한 워크플로우를 간결하고 신뢰성 있게 해결하는 전문 소프트웨어." data-en="Specialized software streamlining complex workflows for field engineers with high reliability." class="i18n-text">
+              실무 현장의 복잡한 워크플로우를 간결하고 신뢰성 있게 해결하는 전문 소프트웨어.
+            </span>
+          </p>
+        </div>
+
+        <!-- Pillar 02: Solo Craftsmanship -->
+        <div class="card-glass glow-effect rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-950/20 flex flex-col">
+          <div class="text-xs font-mono text-emerald-400 mb-3 flex items-center justify-between font-semibold">
+            <span class="px-2.5 py-1 rounded bg-emerald-950/70 border border-emerald-800/60 text-emerald-300">02 / Solo Craftsmanship</span>
+            <span class="text-zinc-600 font-mono text-xs">Pillar</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">
+            <span data-kr="타협 없는 1인 장인정신" data-en="Uncompromising Solo Craftsmanship" class="i18n-text">타협 없는 1인 장인정신</span>
+          </h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mt-auto">
+            <span data-kr="기획부터 시스템 아키텍처, 디테일까지 직접 완성하는 고유의 개발 미학." data-en="End-to-end craftsmanship covering concept planning, system architecture, and fine details." class="i18n-text">
+              기획부터 시스템 아키텍처, 디테일까지 직접 완성하는 고유의 개발 미학.
+            </span>
+          </p>
+        </div>
+
+        <!-- Pillar 03: Indie Gaming -->
+        <div class="card-glass glow-effect rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:shadow-xl hover:shadow-violet-950/20 flex flex-col">
+          <div class="text-xs font-mono text-violet-400 mb-3 flex items-center justify-between font-semibold">
+            <span class="px-2.5 py-1 rounded bg-violet-950/70 border border-violet-800/60 text-violet-300">03 / Indie Gaming</span>
+            <span class="text-zinc-600 font-mono text-xs">Pillar</span>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">
+            <span data-kr="독창적 메커니즘의 인디 게임" data-en="Inventive Indie Gaming" class="i18n-text">독창적 메커니즘의 인디 게임</span>
+          </h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mt-auto">
+            <span data-kr="장르의 틀에 얽매이지 않고 깊이 있는 규칙과 몰입감에 집중한 인디 게임." data-en="Independent games focused on deep mechanical rules and immersive gameplay beyond genre boundaries." class="i18n-text">
+              장르의 틀에 얽매이지 않고 깊이 있는 규칙과 몰입감에 집중한 인디 게임.
+            </span>
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer with Legal Links & Modal Triggers -->
+  <footer class="mt-auto border-t border-zinc-800/80 bg-[#06070a] py-12 px-4 sm:px-6 lg:px-8 text-zinc-400 text-sm">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Left: Logo & Contact -->
+      <div class="flex flex-col sm:flex-row items-center sm:items-baseline gap-3 text-center sm:text-left">
+        <span class="font-bold text-white tracking-tight">Dueky Labs</span>
+        <span class="hidden sm:inline text-zinc-700">|</span>
+        <div class="flex items-center gap-1.5 text-xs">
+          <span class="i18n-text text-zinc-500" data-kr="문의:" data-en="Inquiries:">문의:</span>
+          <a href="mailto:dueky.lab@gmail.com" class="text-cyan-400 hover:text-cyan-300 font-mono underline decoration-cyan-500/30 underline-offset-4 transition-colors">
+            dueky.lab@gmail.com
+          </a>
+        </div>
+      </div>
+
+      <!-- Center: Legal Links (Clickable Modals) -->
+      <div class="flex items-center gap-4 text-xs font-medium">
+        <button type="button" onclick="openPolicyModal('privacy')" class="hover:text-zinc-200 transition-colors underline decoration-zinc-700 underline-offset-4">
+          <span data-kr="개인정보처리방침" data-en="Privacy Policy" class="i18n-text">개인정보처리방침</span>
+        </button>
+        <span class="text-zinc-700">•</span>
+        <button type="button" onclick="openPolicyModal('terms')" class="hover:text-zinc-200 transition-colors underline decoration-zinc-700 underline-offset-4">
+          <span data-kr="이용약관" data-en="Terms of Service" class="i18n-text">이용약관</span>
+        </button>
+      </div>
+
+      <!-- Right: Copyright -->
+      <div class="text-xs text-zinc-500 text-center md:text-right font-mono">
+        Copyright &copy; 2026 Dueky Labs. All rights reserved.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal for Screenshots & Game Assets -->
+  <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/92 backdrop-blur-md p-4 transition-opacity duration-300" onclick="closeLightbox()">
+    <div class="relative max-w-5xl w-full max-h-[92vh] flex flex-col items-center" onclick="event.stopPropagation()">
+      <button onclick="closeLightbox()" aria-label="Close image lightbox" class="absolute -top-10 right-0 text-zinc-400 hover:text-white p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <img id="lightbox-img" src="" alt="" class="max-h-[82vh] w-auto rounded-xl object-contain shadow-2xl border border-zinc-800" />
+      <p id="lightbox-caption" class="text-sm font-mono text-zinc-300 mt-3 text-center px-4"></p>
+    </div>
+  </div>
+
+  <!-- Legal Notice Modal (Privacy Policy & Terms of Service) -->
+  <div id="policy-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-opacity duration-300" onclick="closePolicyModal()">
+    <div class="card-glass relative max-w-2xl w-full max-h-[85vh] rounded-2xl p-6 sm:p-8 flex flex-col shadow-2xl border border-zinc-700/80 overflow-hidden" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-800">
+        <h3 id="policy-modal-title" class="text-lg sm:text-xl font-bold text-white"></h3>
+        <button onclick="closePolicyModal()" aria-label="Close policy modal" class="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800/60 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div id="policy-modal-body" class="overflow-y-auto py-5 text-xs sm:text-sm text-zinc-300 leading-relaxed space-y-4 pr-1"></div>
+
+      <!-- Modal Footer -->
+      <div class="pt-4 border-t border-zinc-800 flex justify-end">
+        <button type="button" onclick="closePolicyModal()" class="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-white transition-colors">
+          <span data-kr="닫기" data-en="Close" class="i18n-text">닫기</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Vanilla Scripts -->
+  <script>
+    // Language Toggle State & Complete Dynamic i18n
+    let currentLang = localStorage.getItem('dueky_lang') || 'kr';
+
+    // Legal Content Dictionary (KR / EN)
+    const legalContent = {
+      privacy: {
+        kr: {
+          title: "개인정보처리방침 (Privacy Policy)",
+          content: `
+            <p><strong>1. 수집하는 개인정보 항목</strong><br />
+            Dueky Labs 공식 웹사이트는 불필요한 개인정보나 추적 쿠키를 수집하지 않습니다. 이용자가 공식 문의 이메일(<strong>dueky.lab@gmail.com</strong>)을 통해 발송하는 정보(이메일 주소 및 문의 내용)는 질의 응답 및 기술 지원 목적으로만 사용됩니다.</p>
+            
+            <p><strong>2. 개인정보의 보유 및 이용 기간</strong><br />
+            수신된 문의 내역은 해당 질의 및 지원 처리가 완료된 후 지체 없이 안전하게 파기됩니다. 별도의 회원가입 또는 개인 식별 정보 데이터베이스를 운영하지 않습니다.</p>
+            
+            <p><strong>3. 제3자 제공 및 위탁</strong><br />
+            Dueky Labs는 어떠한 경우에도 이용자의 개인정보를 제3자에게 판매, 대여 또는 외부 위탁하지 않습니다.</p>
+            
+            <p><strong>4. 이용자의 권리</strong><br />
+            이용자는 언제든지 본인이 발송한 문의 내역의 열람, 정정 및 삭제를 요청할 수 있으며, 요청 시 즉시 조치됩니다.</p>
+            
+            <p class="text-zinc-500 text-[11px] pt-2">시행일자: 2026년 10월 8일 | Dueky Labs</p>
+          `
+        },
+        en: {
+          title: "Privacy Policy",
+          content: `
+            <p><strong>1. Information Collected</strong><br />
+            Dueky Labs does not collect personal identification data, analytics trackers, or profiling cookies on this site. Information transmitted via our official contact email (<strong>dueky.lab@gmail.com</strong>) is used solely to respond to inquiries and provide technical assistance.</p>
+            
+            <p><strong>2. Retention Period</strong><br />
+            Communication logs are retained only as long as necessary to address your inquiry, after which they are promptly and securely deleted. We do not maintain any user database or membership system.</p>
+            
+            <p><strong>3. Third-Party Sharing</strong><br />
+            Dueky Labs does not sell, rent, disclose, or transfer any user communication data to third parties.</p>
+            
+            <p><strong>4. Your Rights</strong><br />
+            You may request access, correction, or deletion of your communication records at any time by contacting us.</p>
+            
+            <p class="text-zinc-500 text-[11px] pt-2">Effective Date: October 8, 2026 | Dueky Labs</p>
+          `
+        }
+      },
+      terms: {
+        kr: {
+          title: "서비스 이용약관 (Terms of Service)",
+          content: `
+            <p><strong>1. 목적</strong><br />
+            본 약관은 1인 인디 시스템 &amp; 게임 개발 스튜디오 Dueky Labs가 운영하는 공식 포트폴리오 웹사이트의 이용 조건 및 절차를 규정함을 목적으로 합니다.</p>
+            
+            <p><strong>2. 지적재산권의 귀속</strong><br />
+            본 웹사이트에 게재된 모든 텍스트, 아키텍처 다이어그램, 그래픽 에셋, 게임 콘셉트 아트, DPS(Device Protocol Studio) 및 Electrical Toolkit의 소프트웨어 지적재산권은 Dueky Labs에 귀속됩니다. 사전 승인 없는 무단 복제 및 전재를 금합니다.</p>
+            
+            <p><strong>3. 서비스 내용 및 면책</strong><br />
+            본 사이트에 기재된 프로젝트 사양 및 개발 상태는 로드맵에 따라 사전 고지 없이 갱신될 수 있으며, 제공되는 정보의 절대적 완전성을 보증하지 않습니다.</p>
+            
+            <p><strong>4. 준거법 및 문의</strong><br />
+            본 약관은 대한민국 법률에 따라 규율되며, 모든 비즈니스 및 파트너십 관련 문의는 <strong>dueky.lab@gmail.com</strong>으로 접수해 주시기 바랍니다.</p>
+            
+            <p class="text-zinc-500 text-[11px] pt-2">시행일자: 2026년 10월 8일 | Dueky Labs</p>
+          `
+        },
+        en: {
+          title: "Terms of Service",
+          content: `
+            <p><strong>1. Purpose</strong><br />
+            These terms govern the access and use of the official portfolio website operated by Dueky Labs, an independent systems engineering and game studio.</p>
+            
+            <p><strong>2. Intellectual Property</strong><br />
+            All intellectual property rights associated with software specifications, architecture diagrams, gameplay concepts, UI graphics, and codebases displayed (including DPS, Electrical Toolkit, and Train Defense) belong exclusively to Dueky Labs. Unauthorized duplication or redistribution is strictly prohibited.</p>
+            
+            <p><strong>3. Disclaimer</strong><br />
+            All roadmaps, project statuses, and technical previews are provided for informational and portfolio review purposes and are subject to continuous iteration without prior notice.</p>
+            
+            <p><strong>4. Governing Law &amp; Contact</strong><br />
+            These terms are governed by applicable laws. For business inquiries, licensing, or partnerships, please contact <strong>dueky.lab@gmail.com</strong>.</p>
+            
+            <p class="text-zinc-500 text-[11px] pt-2">Effective Date: October 8, 2026 | Dueky Labs</p>
+          `
+        }
+      }
+    };
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('dueky_lang', lang);
+
+      // Iterate every element with i18n data and swap text
+      document.querySelectorAll('.i18n-text, [data-kr], [data-en]').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (text) {
+          el.textContent = text;
+        }
+      });
+
+      // Update input placeholders
+      document.querySelectorAll('[data-' + lang + '-ph]').forEach(el => {
+        el.placeholder = el.getAttribute('data-' + lang + '-ph');
+      });
+
+      // Update toggle buttons active styles
+      const isKR = lang === 'kr';
+      const activeClass = ['bg-cyan-500', 'text-zinc-950', 'shadow-sm'];
+      const inactiveClass = ['text-zinc-400', 'hover:text-white'];
+
+      // Desktop buttons
+      const btnKr = document.getElementById('lang-btn-kr');
+      const btnEn = document.getElementById('lang-btn-en');
+      if (btnKr && btnEn) {
+        if (isKR) {
+          btnKr.classList.add(...activeClass);
+          btnKr.classList.remove(...inactiveClass);
+          btnEn.classList.remove(...activeClass);
+          btnEn.classList.add(...inactiveClass);
+        } else {
+          btnEn.classList.add(...activeClass);
+          btnEn.classList.remove(...inactiveClass);
+          btnKr.classList.remove(...activeClass);
+          btnKr.classList.add(...inactiveClass);
+        }
+      }
+
+      // Mobile buttons
+      const mBtnKr = document.getElementById('mobile-lang-kr');
+      const mBtnEn = document.getElementById('mobile-lang-en');
+      if (mBtnKr && mBtnEn) {
+        if (isKR) {
+          mBtnKr.classList.add(...activeClass);
+          mBtnKr.classList.remove(...inactiveClass);
+          mBtnEn.classList.remove(...activeClass);
+          mBtnEn.classList.add(...inactiveClass);
+        } else {
+          mBtnEn.classList.add(...activeClass);
+          mBtnEn.classList.remove(...inactiveClass);
+          mBtnKr.classList.remove(...activeClass);
+          mBtnKr.classList.add(...inactiveClass);
+        }
+      }
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+    }
+
+    // Initialize Language on DOM Ready
+    document.addEventListener('DOMContentLoaded', () => {
+      setLanguage(currentLang);
+    });
+
+    // Mobile Nav Toggle
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('menu-icon-open');
+    const iconClose = document.getElementById('menu-icon-close');
+    const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function toggleMenu() {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        iconOpen.classList.add('hidden');
+        iconClose.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        iconOpen.classList.remove('hidden');
+        iconClose.classList.add('hidden');
+      }
+    }
+
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', toggleMenu);
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          iconOpen.classList.remove('hidden');
+          iconClose.classList.add('hidden');
+        });
+      });
+    }
+
+    // Intuitive Mouse Drag-to-Scroll (Without wheel interception)
+    function setupDragScroll(carouselId, prevBtnId, nextBtnId, scrollStep = 320) {
+      const carousel = document.getElementById(carouselId);
+      const prevBtn = document.getElementById(prevBtnId);
+      const nextBtn = document.getElementById(nextBtnId);
+
+      if (!carousel) return;
+
+      // Button navigation
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          carousel.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          carousel.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        });
+      }
+
+      // Mouse drag-to-scroll interaction
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+      let hasDragged = false;
+
+      carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        hasDragged = false;
+        carousel.classList.add('active');
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+      });
+
+      carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.classList.remove('active');
+      });
+
+      carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.classList.remove('active');
+      });
+
+      carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        if (Math.abs(walk) > 6) {
+          hasDragged = true;
+        }
+        carousel.scrollLeft = scrollLeft - walk;
+      });
+
+      // Prevent accidental lightbox trigger if user was dragging
+      carousel.addEventListener('click', (e) => {
+        if (hasDragged) {
+          e.stopPropagation();
+          hasDragged = false;
+        }
+      }, true);
+    }
+
+    // Initialize Drag-to-scroll on both galleries
+    setupDragScroll('solutions-carousel', 'solutions-prev', 'solutions-next', 300);
+    setupDragScroll('games-carousel', 'games-prev', 'games-next', 420);
+
+    // Lightbox modal functionality
+    function openLightbox(src, caption) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+      img.src = src;
+      img.alt = caption;
+      cap.textContent = caption;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    // Policy & Terms Modal Functionality
+    function openPolicyModal(type) {
+      const modal = document.getElementById('policy-modal');
+      const title = document.getElementById('policy-modal-title');
+      const body = document.getElementById('policy-modal-body');
+      
+      const data = legalContent[type][currentLang] || legalContent[type]['kr'];
+      title.textContent = data.title;
+      body.innerHTML = data.content;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePolicyModal() {
+      const modal = document.getElementById('policy-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    // Close Modals on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closePolicyModal();
+      }
+    });
+
+    // DPS Interactive Mini Terminal Simulation
+    (function initTerminal() {
+      const termScreen = document.getElementById('term-screen');
+      const termInput = document.getElementById('term-input');
+      const termForm = document.getElementById('term-form');
+      const statusDot = document.getElementById('term-status-dot');
+      const statusText = document.getElementById('term-status-text');
+      const quickBtns = document.querySelectorAll('.term-quick-btn');
+
+      if (!termScreen || !termForm) return;
+
+      let isConnected = false;
+
+      function getTimestamp() {
+        const now = new Date();
+        return now.toTimeString().split(' ')[0];
+      }
+
+      function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function appendLine(html) {
+        const line = document.createElement('div');
+        line.innerHTML = html;
+        termScreen.appendChild(line);
+        termScreen.scrollTop = termScreen.scrollHeight;
+      }
+
+      function handleCommand(rawCmd) {
+        const cmd = (rawCmd || '').trim();
+        if (!cmd) return;
+
+        const ts = `<span class="text-zinc-600">[${getTimestamp()}]</span>`;
+        const upper = cmd.toUpperCase();
+
+        if (upper === 'CLEAR') {
+          termScreen.innerHTML = `
+            <div class="text-zinc-500">// Device Protocol Studio (DPS) — Live Protocol Daemon v1.4.2</div>
+            <div class="text-cyan-400/90 flex items-center gap-2">
+              <span class="text-zinc-600">[${getTimestamp()}]</span>
+              <span>[SYSTEM] Terminal buffer cleared. Ready for input.</span>
+            </div>
+          `;
+          return;
+        }
+
+        // Echo sent command
+        appendLine(`${ts} <span class="text-cyan-300 font-semibold">[TX] &gt;&gt; ${escapeHtml(cmd)}</span>`);
+
+        if (upper === 'CONNECT') {
+          if (!isConnected) {
+            isConnected = true;
+            statusDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse transition-colors duration-300';
+            statusText.textContent = 'CONNECTED (Virtual_Sensor_0x4A)';
+            statusText.className = 'text-[11px] font-mono text-emerald-400 font-semibold';
+            
+            setTimeout(() => {
+              appendLine(`${ts} <span class="text-amber-400">[INFO] Scanning peripheral advertising channels (CH 37, 38, 39)...</span>`);
+            }, 100);
+            setTimeout(() => {
+              appendLine(`${ts} <span class="text-amber-400">[INFO] Target identified: 'Virtual_Sensor_0x4A' (MAC: D4:36:39:B1:0A:4F, RSSI: -42dBm).</span>`);
+            }, 300);
+            setTimeout(() => {
+              appendLine(`${ts} <span class="text-emerald-400 font-semibold">[RX] &lt;&lt; 200 OK: GATT connection established. MTU 247 bytes negotiated.</span>`);
+              appendLine(`${ts} <span class="text-emerald-400/90">[RX] &lt;&lt; Telemetry Stream active: [0x55, 0xAA, 0x01, 0x2A, 0x9F, 0xE4, 0x00]</span>`);
+            }, 600);
+          } else {
+            appendLine(`${ts} <span class="text-zinc-400">[INFO] Already connected to 'Virtual_Sensor_0x4A' (Link Active, RSSI: -44dBm).</span>`);
+          }
+        } else if (upper === 'DISCONNECT') {
+          isConnected = false;
+          statusDot.className = 'w-2 h-2 rounded-full bg-zinc-500 transition-colors duration-300';
+          statusText.textContent = 'DISCONNECTED';
+          statusText.className = 'text-[11px] font-mono text-zinc-400';
+          appendLine(`${ts} <span class="text-amber-400">[INFO] Terminating connection handle 0x0001...</span>`);
+          setTimeout(() => {
+            appendLine(`${ts} <span class="text-zinc-400">[SYSTEM] Connection closed cleanly. Status: IDLE.</span>`);
+          }, 200);
+        } else if (upper === 'AT+INFO') {
+          setTimeout(() => {
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; +DEV: Device Protocol Studio (DPS) Virtual Node</span>`);
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; +FW: v2.4.1-RC (Nordic nRF52840 SoC / Zephyr RTOS)</span>`);
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; +CAP: [BLE 5.2, Coded PHY, 2Mbps High-Speed, Custom GATT]</span>`);
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; +BAT: 96% (3.28V) | VCC: OK | TEMP: 24.6°C</span>`);
+          }, 150);
+        } else if (upper === 'SCAN') {
+          appendLine(`${ts} <span class="text-amber-400">[INFO] Scanning 2.4GHz BLE advertising spectrum (1000ms)...</span>`);
+          setTimeout(() => {
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; [DEV 1] Virtual_Sensor_0x4A | MAC: D4:36:39:B1:0A:4F | -42dBm | Connectable</span>`);
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; [DEV 2] HVAC_Modbus_Bridge | MAC: C8:2B:96:E0:11:82 | -68dBm | Connectable</span>`);
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; [DEV 3] Test_Beacon_03     | MAC: E4:E1:12:44:99:AA | -81dBm | Non-Connectable</span>`);
+            appendLine(`${ts} <span class="text-zinc-400">[SYSTEM] Scan complete. 3 devices found.</span>`);
+          }, 350);
+        } else if (upper === 'PING') {
+          setTimeout(() => {
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; PONG! RTT: 11.4ms. Latency jitter: ±0.8ms. Packet loss: 0%</span>`);
+          }, 120);
+        } else if (upper === 'HELP') {
+          appendLine(`${ts} <span class="text-zinc-300">[INFO] Available commands: CONNECT, DISCONNECT, AT+INFO, SCAN, PING, CLEAR, HELP</span>`);
+        } else {
+          // Custom command
+          setTimeout(() => {
+            const hex = Math.floor(Math.random() * 0xFFFFFFFF).toString(16).toUpperCase().padStart(8, '0');
+            appendLine(`${ts} <span class="text-emerald-400">[RX] &lt;&lt; ACK: Frame parsed (${cmd.length} bytes). CRC32: 0x${hex} OK. Response: 0x06 (ACK)</span>`);
+          }, 180);
+        }
+      }
+
+      // Quick buttons click
+      quickBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const cmd = btn.getAttribute('data-cmd');
+          handleCommand(cmd);
+        });
+      });
+
+      // Form submission
+      termForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const cmd = termInput.value;
+        if (cmd.trim()) {
+          handleCommand(cmd);
+          termInput.value = '';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
