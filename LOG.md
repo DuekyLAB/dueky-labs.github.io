@@ -167,4 +167,12 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Reordered Electrical Toolkit cards, applied clean bullet formats, and updated localization descriptions.
   - Automatically initialized the GitHub repository, committed changes, and pushed to `dueky-labs.github.io`.
 
+## [TASK-025] 2026-10-09 — Resolved GitHub Pages 404 by Normalizing Game Asset Filenames
+- **Target Files:** `index.html`, `image/*`, `LOG.md`
+- **Actions Taken:**
+  - Renamed Korean-named and spaced game asset files to safe alphanumeric filenames (`train-defense-01.png` ~ `train-defense-04.png`).
+  - Resolved Unicode NFD/NFC decomposition mismatch and URL percent-encoding 404 errors on GitHub Pages.
+  - Updated all image `src` and Lightbox modal paths in `index.html` to match new filenames.
+
+
 
