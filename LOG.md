@@ -174,5 +174,16 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Resolved Unicode NFD/NFC decomposition mismatch and URL percent-encoding 404 errors on GitHub Pages.
   - Updated all image `src` and Lightbox modal paths in `index.html` to match new filenames.
 
+## [TASK-026] 2026-10-09 — DPS Gallery 2-Column Grid, Compact Thumbnails, and Lightbox Modal
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Replaced the bulky horizontal scroll layout in DPS gallery with a compact 2-column grid scaled down to ~1/4 size.
+  - Implemented an interactive click-to-zoom Lightbox modal with escape key, backdrop dismiss, and zoom-in cursor hint.
 
-
+## [TASK-027] 2026-10-09 — Footer Business Registration Information Added
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Added official studio business registration details (Company name: 듀키(Dueky), CEO: 김효근, Business Reg. No: 613-41-01531, Type: 정보통신업, Item: 응용 소프트웨어 개발 및 공급업) to the footer.
+  - Strictly excluded physical business address in accordance with security and privacy instructions.
+  - Implemented responsive `flex-wrap` layout with subtle dividers (`|`) and clean monospace styling (`text-[11px] text-zinc-500 font-mono`) matching the studio design system.
+  - Embedded bilingual `[ KR | EN ]` toggle support across all business information labels.
