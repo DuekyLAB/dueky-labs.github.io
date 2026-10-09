@@ -228,5 +228,18 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
     - Disabled image file dragging (`dragstart` prevention, `draggable="false"`, and CSS `-webkit-user-drag: none`).
     - Enforced CSS `user-select: none` to prevent unwanted text or asset selection.
 
+## [TASK-033] 2026-10-09 — Global English Copy Refinement & Comprehensive Site QA
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Conducted full-site review and refinement of all English copy across Hero, Tools & Apps, Electrical Toolkit, Games lineup, Studio profile, and UI labels:
+    - Upgraded literal translations to native Silicon Valley tech/engineering standard (Native Tech Tone).
+    - Fixed terminology, phrasing, casing, and conciseness for technical credibility (e.g. multi-protocol analyzer, regression testing studio, circular rail mechanics, on-device offline architecture).
+  - Executed end-to-end QA validation across desktop (1440x900) and mobile (375x812) viewports:
+    - Verified smooth KR/EN language toggle and dynamic text updates.
+    - Verified hero button group dimension synchronization and visual hierarchy.
+    - Confirmed Lightbox modal image enlargement, diagonal center watermark (`© 2026 DUEKY LABS — All Rights Reserved`), and anti-download overlays.
+    - Verified mobile navigation menu toggle, lack of horizontal layout overflow, and zero browser console errors.
+
+
 
 
