@@ -195,3 +195,11 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Removed cards 07 (Field QR Log) and 08 (Pro Suite), retaining cards 01 through 06.
   - Streamlined footer business details by removing business type (업태) and item (종목), leaving Company (듀키), CEO (김효근), and Business Reg. No (613-41-01531).
   - Aligned typography and divider styles (`text-xs text-zinc-500 font-mono`) with the top footer row and maintained responsive flex-wrap behavior.
+
+## [TASK-029] 2026-10-09 — DPS Screenshots Viewport-Fit Layout & 50% Image Scale Reduction
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Reduced screenshot card image display size by ~50% (capped height at 80–96px) to eliminate bulky vertical footprint.
+  - Implemented a compact 3-column x 2-row horizontal grid (`repeat(3, 1fr)`) on desktop/tablet to fit all 6 screenshot cards (01~06) within a single viewport without vertical scrolling.
+  - Configured a smooth native horizontal swipe carousel on mobile viewports (`overflow-x-auto`) to keep the vertical page flow neat and uncluttered.
+  - Preserved numbering, titles, subtle watermarks, and click-to-zoom Lightbox modal integration.
