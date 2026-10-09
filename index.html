@@ -115,6 +115,43 @@
     .scrollbar-violet::-webkit-scrollbar-thumb:hover {
       background: rgba(139, 92, 246, 0.7);
     }
+
+    /* Header Navigation Pill Links */
+    .nav-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #d4d4d8;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-pill:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(34, 211, 238, 0.55);
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.2);
+    }
+    .nav-pill.active {
+      color: #22d3ee;
+      background: rgba(6, 182, 212, 0.12);
+      border-color: rgba(34, 211, 238, 0.7);
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.22);
+      font-weight: 600;
+    }
+    .mobile-nav-link.nav-pill {
+      display: flex;
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 0.875rem;
+      text-align: center;
+    }
   </style>
 </head>
 <body class="bg-[#08090d] text-zinc-100 font-sans antialiased selection:bg-cyan-500/25 selection:text-cyan-200 min-h-screen flex flex-col relative overflow-x-hidden">
@@ -145,14 +182,14 @@
 
       <!-- Desktop Navigation: Tools & Apps, Games + KR/EN Switcher (No header email string) -->
       <div class="hidden md:flex items-center gap-4">
-        <nav class="flex items-center gap-1.5 text-sm font-medium">
-          <a href="#tools-apps" data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="i18n-text px-3.5 py-2 text-zinc-300 hover:text-white rounded-lg hover:bg-zinc-800/50 transition-colors">
+        <nav class="flex items-center gap-2">
+          <a href="#tools-apps" data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="nav-pill i18n-text">
             Tools &amp; Apps
           </a>
-          <a href="#games" data-kr="Games" data-en="Games" class="i18n-text px-3.5 py-2 text-zinc-300 hover:text-white rounded-lg hover:bg-zinc-800/50 transition-colors">
+          <a href="#games" data-kr="Games" data-en="Games" class="nav-pill i18n-text">
             Games
           </a>
-          <a href="#studio" data-kr="Studio" data-en="Studio" class="i18n-text px-3.5 py-2 text-zinc-300 hover:text-white rounded-lg hover:bg-zinc-800/50 transition-colors">
+          <a href="#studio" data-kr="Studio" data-en="Studio" class="nav-pill i18n-text">
             Studio
           </a>
         </nav>
@@ -197,13 +234,13 @@
 
     <!-- Mobile Dropdown Nav -->
     <div id="mobile-menu" class="hidden md:hidden border-b border-zinc-800/80 bg-[#0c0e14]/95 backdrop-blur-xl px-4 py-4 space-y-2">
-      <a href="#tools-apps" data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="mobile-nav-link i18n-text block px-3 py-2 text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg">
+      <a href="#tools-apps" data-kr="Tools &amp; Apps" data-en="Tools &amp; Apps" class="mobile-nav-link nav-pill i18n-text">
         Tools &amp; Apps
       </a>
-      <a href="#games" data-kr="Games" data-en="Games" class="mobile-nav-link i18n-text block px-3 py-2 text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg">
+      <a href="#games" data-kr="Games" data-en="Games" class="mobile-nav-link nav-pill i18n-text">
         Games
       </a>
-      <a href="#studio" data-kr="Studio" data-en="Studio" class="mobile-nav-link i18n-text block px-3 py-2 text-base font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-lg">
+      <a href="#studio" data-kr="Studio" data-en="Studio" class="mobile-nav-link nav-pill i18n-text">
         Studio
       </a>
     </div>
@@ -1301,6 +1338,45 @@
         });
       });
     }
+
+    // Navigation Active Link Highlight (ScrollSpy)
+    const navSections = ['tools-apps', 'games', 'studio'];
+    const allNavPills = document.querySelectorAll('.nav-pill');
+
+    function updateActiveNav() {
+      const scrollPos = window.scrollY + 140; // offset for sticky header
+      let currentSection = '';
+
+      if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 80) {
+        currentSection = 'studio';
+      } else {
+        for (const sectionId of navSections) {
+          const el = document.getElementById(sectionId);
+          if (el) {
+            const top = el.offsetTop;
+            const height = el.offsetHeight;
+            if (scrollPos >= top && scrollPos < top + height) {
+              currentSection = sectionId;
+              break;
+            }
+          }
+        }
+      }
+
+      allNavPills.forEach(pill => {
+        const href = pill.getAttribute('href');
+        if (currentSection && href === `#${currentSection}`) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    window.addEventListener('resize', updateActiveNav, { passive: true });
+    document.addEventListener('DOMContentLoaded', updateActiveNav);
+    updateActiveNav();
 
     // Intuitive Mouse Drag-to-Scroll (Without wheel interception)
     function setupDragScroll(carouselId, prevBtnId, nextBtnId, scrollStep = 320) {

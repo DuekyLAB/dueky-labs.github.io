@@ -211,3 +211,11 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Aligned icon-text spacing (`gap-2`) and vertical center alignment (`inline-flex items-center justify-center`).
   - Implemented cohesive Primary + Secondary visual pairing: Primary retains vibrant cyan/teal gradient with crisp border definition (`border-cyan-400/30`), while Secondary features refined dark glass background (`bg-zinc-900/80 hover:bg-zinc-800/90`), subtle cyan-tinted border hover effect (`hover:border-cyan-500/50`), hover cyan glow (`hover:shadow-cyan-500/10`), and icon color transition.
 
+## [TASK-031] 2026-10-09 — Header Navigation Pill Links & Interactive Feedback Enhancements
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Redesigned top navigation menu items (`Tools & Apps`, `Games`, `Studio`) into intuitive capsule/pill chip buttons (`.nav-pill`) with `border-radius: 9999px`, subtle translucent borders (`border: 1px solid rgba(255, 255, 255, 0.12)`), dark glass backgrounds (`background: rgba(255, 255, 255, 0.03)`), and comfortable touch/click padding (`6px 14px`).
+  - Implemented smooth hover micro-interactions: illuminated cyan border (`rgba(34, 211, 238, 0.55)`), background brighten effect (`rgba(255, 255, 255, 0.08)`), and ambient cyan glow (`box-shadow: 0 0 12px rgba(34, 211, 238, 0.2)`).
+  - Integrated dynamic ScrollSpy active link highlighting (`.nav-pill.active`) with cyan accent background, border, and glow to visually reflect current viewport position across desktop and mobile menus.
+
+
