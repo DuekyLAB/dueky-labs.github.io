@@ -240,6 +240,14 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
     - Confirmed Lightbox modal image enlargement, diagonal center watermark (`© 2026 DUEKY LABS — All Rights Reserved`), and anti-download overlays.
     - Verified mobile navigation menu toggle, lack of horizontal layout overflow, and zero browser console errors.
 
-
-
-
+## [TASK-034] 2026-10-09 — Hero Button Group Standardization & Distinct Vibrant Theme Styling
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - **공통 규격 완전 통일 (Set Specification):**
+    - 'Tools & Apps 살펴보기' 및 'Games 보기' 버튼의 높이(`h-12` / 48px), 패딩(`px-6`), 모서리 곡률(`rounded-xl` / 12px), 폰트 크기 및 두께(`font-semibold text-sm`), 내부 정렬(`inline-flex items-center justify-center gap-2`)을 1:1로 완벽히 일치시킴.
+    - 끝부분 화살표 아이콘을 동일한 오른쪽 화살표(`M14 5l7 7m0 0l-7 7m7-7H3`, `w-4 h-4`)로 통일하여 하향 화살표('∨')와의 불일치 해소.
+    - 호버 시 동일한 리프트 모션(`hover:-translate-y-0.5`, `active:translate-y-0`) 및 화살표 우측 이동 마이크로 인터랙션(`group-hover:translate-x-0.5`) 적용.
+  - **개별 고유 테마 컬러(Vibrant Gradient & Glow) 차별화:**
+    - `Tools & Apps 살펴보기`: 시안/청록 그라데이션(`from-cyan-500 to-teal-500`) + 짙은 텍스트/아이콘(`text-zinc-950`) + 시안 네온 글로우(`shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40`).
+    - `Games 보기`: 바이올렛/퍼플 그라데이션(`from-violet-600 to-indigo-600`) + 화이트 텍스트/아이콘(`text-white`) + 바이올렛 네온 글로우(`shadow-lg shadow-violet-600/25 hover:shadow-violet-600/40`).
+  - 브라우저 시각 검증(데스크톱 및 호버 상태)을 통해 두 버튼의 물리적 규격 일치도 및 네온 테마 밸런스 최종 확인 완료.
