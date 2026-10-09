@@ -218,4 +218,15 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Implemented smooth hover micro-interactions: illuminated cyan border (`rgba(34, 211, 238, 0.55)`), background brighten effect (`rgba(255, 255, 255, 0.08)`), and ambient cyan glow (`box-shadow: 0 0 12px rgba(34, 211, 238, 0.2)`).
   - Integrated dynamic ScrollSpy active link highlighting (`.nav-pill.active`) with cyan accent background, border, and glow to visually reflect current viewport position across desktop and mobile menus.
 
+## [TASK-032] 2026-10-09 — Lightbox Center Watermark & Anti-Download Image Protection
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Added an elegant, non-intrusive diagonal center watermark (`© 2026 DUEKY LABS — All Rights Reserved`) centered within the enlarged Lightbox modal with subtle translucent styling (`text-white/35`), letter spacing, and `pointer-events: none` to preserve usability.
+  - Implemented multi-layered image protection across the Games showcase cards and Lightbox zoom modal:
+    - Transparent overlay layer (`div.absolute.inset-0.z-10`) positioned over image viewports to intercept right-click context menu options.
+    - Global and element-level prevention for mouse right-click (`contextmenu` with `e.preventDefault()`).
+    - Disabled image file dragging (`dragstart` prevention, `draggable="false"`, and CSS `-webkit-user-drag: none`).
+    - Enforced CSS `user-select: none` to prevent unwanted text or asset selection.
+
+
 
