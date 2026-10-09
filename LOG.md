@@ -203,3 +203,11 @@ All notable changes and milestones for Dueky Labs official web portfolio are doc
   - Implemented a compact 3-column x 2-row horizontal grid (`repeat(3, 1fr)`) on desktop/tablet to fit all 6 screenshot cards (01~06) within a single viewport without vertical scrolling.
   - Configured a smooth native horizontal swipe carousel on mobile viewports (`overflow-x-auto`) to keep the vertical page flow neat and uncluttered.
   - Preserved numbering, titles, subtle watermarks, and click-to-zoom Lightbox modal integration.
+
+## [TASK-030] 2026-10-09 — Hero Button Group Dimensions Alignment & Visual Hierarchy Harmonization
+- **Target Files:** `index.html`, `LOG.md`
+- **Actions Taken:**
+  - Unified button dimensions across 'Tools & Apps 살펴보기' and 'Games 보기' with identical height (`h-12` / 48px), horizontal padding (`px-6`), corner radius (`rounded-xl`), font size (`text-sm`), and font weight (`font-semibold`).
+  - Aligned icon-text spacing (`gap-2`) and vertical center alignment (`inline-flex items-center justify-center`).
+  - Implemented cohesive Primary + Secondary visual pairing: Primary retains vibrant cyan/teal gradient with crisp border definition (`border-cyan-400/30`), while Secondary features refined dark glass background (`bg-zinc-900/80 hover:bg-zinc-800/90`), subtle cyan-tinted border hover effect (`hover:border-cyan-500/50`), hover cyan glow (`hover:shadow-cyan-500/10`), and icon color transition.
+
